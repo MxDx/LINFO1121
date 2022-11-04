@@ -27,6 +27,25 @@ package searching;
  */
 public class BinarySearchTree {
 
+    public static void main(String[] args) {
+        BinarySearchTree.BSTNode<Integer> root = new BinarySearchTree.BSTNode<>(12);
+        int [] values = new int []{8, 18, 3, 11, 14, 20, 9, 15};
+        for (int i = 0; i < values.length; i++) {
+            root.add(values[i]);
+        }
+        System.out.println("Test Ceil");
+        System.out.println("Test for 11: " + BinarySearchTree.ceil(root, 11));
+        System.out.println("Test for 4: " + BinarySearchTree.ceil(root, 4));
+        System.out.println("Test for 21: " + BinarySearchTree.ceil(root, 21));
+        System.out.println("Test for 13: " + BinarySearchTree.ceil(root, 13));
+
+        System.out.println("\nTest floor");
+        System.out.println("Test for 11: " + BinarySearchTree.floor(root, 11));
+        System.out.println("Test for 4: " + BinarySearchTree.floor(root, 4));
+        System.out.println("Test for 21: " + BinarySearchTree.floor(root, 21));
+        System.out.println("Test for 13: " + BinarySearchTree.floor(root, 1));
+    }
+
     /**
      * Returns the ceiled value of `value` in the tree rooted at `root`
      *
@@ -36,7 +55,6 @@ public class BinarySearchTree {
     public static Integer ceil(BSTNode<Integer> root, int value) {
         return recCeil(root, value, null);
     }
-
 
     public static Integer recCeil(BSTNode<Integer> root, int value, Integer currentBest) {
         if (root == null) {
@@ -55,6 +73,28 @@ public class BinarySearchTree {
         } else {
             return recCeil(root.getRight(), value, currentBest);
         }
+    }
+
+    /**
+     * Returns the floored value of `value` in the tree rooted at `root`
+     * @param root the root of the tree
+     * @param value the value we want to floor
+     */
+    public static Integer floor(BSTNode<Integer> root, int value) {
+        return recFloor(root, value, null);
+    }
+
+    public static Integer recFloor(BSTNode<Integer> root, int value, Integer floor) {
+        if (root == null) {
+            return floor;
+        }
+        if (root.getKey() == value) {
+            return value;
+        }
+        if (root.getKey() > value) {
+            return recFloor(root.getLeft(), value, floor);
+        }
+        return recFloor(root.getRight(), value, root.getKey());
     }
 
     static class BSTNode<K extends Comparable<K>> {
